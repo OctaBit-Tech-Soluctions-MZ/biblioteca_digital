@@ -1,0 +1,39 @@
+{% extends 'base_site.html' %}
+
+{% block title %}Lista de Documentos{% endblock %}
+
+{% block content %}
+{% load static %}
+<div class="row">
+    <a href="{% url 'registerdoc' %}" class="btn btn-primary">Registar Documento</a>
+    <div class="table-responsive">
+        <table class="table">
+            <thead class="table-dark">
+                <tr>
+                    <th>#</th>
+                    <th>Titulo</th>
+                    <th>Tipo</th>
+                    <th>Autor</th>
+                    <th>Acção</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for document in documents %}
+                <tr>
+                    <td></td>
+                    <td>{{ document.title }}</td>
+                    <td>{{ document.type }}
+                    </td>
+                    <td>{{document.author }}</td>
+                    <td><a href="" class="btn btn-danger">Excluir</a>
+                    <a href="" class="btn btn-primary">Editar</a></td>
+
+                </tr>
+                {% empty %}
+                <li>Nenhum Documento encontrado.</li>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends 'base_site.html' %}
+
+{% block title %}Lista de Utilizadores{% endblock %}
+
+{% block content %}
+{% load static %}
+<div class="row">
+    <a href="{% url 'create-user' %}" class="btn btn-primary">Registar Utilizador</a>
+    <div class="table-responsive">
+        <table class="table">
+            <thead class="table-dark">
+                <tr>
+                    <th>#</th>
+                    <th>Nome</th>
+                    <th>Tipo de Utilizador</th>
+                    <th>Email</th>
+                    <th>Acção</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td></td>
+                    <td>{{ user.first_name }} {{user.last_name }}</td>
+                    <td>{% if user.is_superuser == 1 %}
+                        Admin
+                        {% else %}
+                        Estudante
+                        {% endif %}
+                    </td>
+                    <td>{{user.email }}</td>
+                    <td><a href="" class="btn btn-danger">bloquear</a></td>
+
+                </tr>
+                {% empty %}
+                <li>Nenhum Utilizador encontrado.</li>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

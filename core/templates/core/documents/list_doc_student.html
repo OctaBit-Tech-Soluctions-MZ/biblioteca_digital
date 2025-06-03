@@ -1,0 +1,62 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Lista de Documentos{% endblock %}
+
+{% block content %}
+{% load static %}
+<!-- Filtros -->
+<div class="card shadow border border-0 p-3 mb-3">
+    <div class="row d-flex">
+        <form action="" method="get" class="row d-flex gap-1">
+            <div class="col-md-4">
+                <input type="text" class="form-control" placeholder="Pesquise o documento que precisas aqui...">
+            </div>
+            <div class="col-md-3">
+                <select class="form-select" name="type">
+                    <option value="">Todos</option>
+                    <option value="livros">Livros</option>
+                    <option value="artigos">Artigos</option>
+                    <option value="teses">Teses</option>
+                    <option value="revistas">Revistas</option>
+                </select>
+            </div>
+
+            <div class="col-md-3">
+                <select class="form-select">
+                    <option value="title">Ordenar por: Título</option>
+                    <option value="author">Autor</option>
+                    <option value="year">Ano</option>
+                </select>
+            </div>
+            <div class="col-md-1">
+                <button class="btn btn-primary"><i class="fas fa-search"></i></button>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- CARD DE DOCUMENTO COM CAPA -->
+<div class="col-md-4 col-lg-2">
+    {% for document in documents %}
+    <div class="card card-doc h-100 shadow-sm border-0 p-2">
+
+        <div class="card-body">
+            <h6 class="fw-bold mb-1">{{ document.title }}</h6>
+            <p class="mb-1 text-muted">{{ document.author }}</p>
+            <p class="mb-2 text-muted">{{ document.year }}</p>
+            <span class="tag">{{ document.type }}</span>
+        </div>
+
+        <!-- link alinhado à direita -->
+        <div class="card-footer bg-transparent border-0 pt-0 d-flex justify-content-end">
+            <a href="{% url 'view_doc' document.id %}" class="details-link">
+                <i class="fas fa-eye"></i> Detalhes
+            </a>
+        </div>
+        {% empty %}
+        <li>Nenhum Documento encontrado.</li>
+        {% endfor %}
+
+    </div>
+
+</div>
+{% endblock %}
