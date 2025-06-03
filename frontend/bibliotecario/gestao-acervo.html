@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gestão do Acervo - Instituto Profissional</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" />
+   <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+  <div class="container py-5">
+    <h2 class="header-title">📘 Gestão do Acervo da Biblioteca</h2>
+
+    <!-- Formulário de Cadastro -->
+    <div class="form-section">
+      <h5 class="mb-4">Registar Novo Manual</h5>
+      <form id="formManual">
+        <div class="row g-4">
+          <div class="col-md-6">
+            <label for="titulo" class="form-label">Título do Manual</label>
+            <input type="text" class="form-control" id="titulo" placeholder="Ex: Lógica de Programação" required />
+          </div>
+          <div class="col-md-6">
+            <label for="autor" class="form-label">Autor</label>
+            <input type="text" class="form-control" id="autor" placeholder="Ex: Prof. João Santos" required />
+          </div>
+          <div class="col-md-6">
+            <label for="curso" class="form-label">Curso Relacionado</label>
+            <input type="text" class="form-control" id="curso" placeholder="Ex: Engenharia Informática" />
+          </div>
+          <div class="col-md-3">
+            <label for="ano" class="form-label">Ano</label>
+            <input type="number" class="form-control" id="ano" min="2000" max="2099" placeholder="2024" />
+          </div>
+          <div class="col-md-12">
+            <label for="link" class="form-label">Link do PDF</label>
+            <input type="text" class="form-control" id="link" placeholder="Ex: /pdfs/manual-logica.pdf" required />
+          </div>
+        </div>
+        <div class="mt-4">
+          <button type="submit" class="btn btn-primary px-4">
+            <i class="bi bi-cloud-upload-fill"></i> Adicionar Manual
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Lista de Manuais -->
+    <div class="row g-4" id="lista-manuais">
+      <!-- Manuais serão adicionados aqui dinamicamente -->
+    </div>
+  </div>
+</body>
+</html>
