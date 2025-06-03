@@ -2,18 +2,21 @@ from django.shortcuts import render, redirect, get_object_or_404
 from core.models import BlockedUser, Order, Document
 from django.utils.text import slugify
 import random
-from core.decorators import is_logged
+from core.decorators import is_logged, group_required
 from django.contrib.auth.models import Group
 from django.contrib.auth.models import User
 
 # Create your views here.
+@group_required('Admin')
 @is_logged
 def admin_dashboard(request):
     return render(request, 'dashboard.html')
+@group_required('Admin')
 @is_logged
 def listUser(request):
     users = User.objects.all()
     return render(request, 'users.html', {'users' : users})
+@group_required('Admin')
 @is_logged
 def registerUser(request):
     if request.method == 'POST':
@@ -21,6 +24,7 @@ def registerUser(request):
         last_name = request.POST.get('lastname')
         email = request.POST.get('email')
         perfil = request.POST.get('perfil')
+        description = request.POST.get('description')
 
         if User.objects.filter(username=email).exists():
             # Já existe usuário
@@ -31,7 +35,8 @@ def registerUser(request):
             last_name=last_name,
             email=email,
             username=email,
-            password='IDEM2025'
+            password='IDEM2025',
+            description = description
         )
 
         # Adiciona o usuário ao grupo
@@ -47,10 +52,12 @@ def registerUser(request):
         return redirect('users')
 
     return render(request, 'create-user.html')
+@group_required('Admin')
 @is_logged
 def generate_password():
     """Gera uma senha no formato 'idem1234'."""
     return 'idem' + str(random.randint(1000, 9999))
+@group_required('Admin')
 @is_logged
 def recoverPassword(request, user_id):
     user = get_object_or_404(User, id=user_id)
@@ -67,6 +74,7 @@ def recoverPassword(request, user_id):
 
     return render(request, 'users/recover_password.html', {'user': user})
 
+@group_required('Admin')
 @is_logged
 def blockedUser(request, id):
     user = get_object_or_404(User, id=id)
@@ -77,6 +85,7 @@ def blockedUser(request, id):
         return redirect('users') 
 
     return render(request, 'users.html', {'user': user})
+@group_required('Admin')
 @is_logged
 def acceptOrder(request, id):
     order = get_object_or_404(Order, id=id)
@@ -85,6 +94,7 @@ def acceptOrder(request, id):
         order.save()
         return redirect('orders')
     return redirect('orders') 
+@group_required('Admin')
 @is_logged
 def listOrder(request):
     orders = Order.objects.all()
@@ -96,6 +106,7 @@ def rejectOrder(request, id):
         order.save()
         return redirect('orders')
     return redirect('orders')
+@group_required('Admin')
 @is_logged
 def reverterOrder(request, id):
     order = get_object_or_404(Order, id=id)
@@ -104,11 +115,13 @@ def reverterOrder(request, id):
         order.save()
         return redirect('orders')
     return redirect('orders')
+@group_required('Admin')
 @is_logged
 def listDocument(request):
     documents = Document.objects.all()
     return render(request, 'documents.html', {'documents' : documents})
 
+@group_required('Admin')
 @is_logged
 def registerDocument(request):
     if request.method == 'POST':
@@ -130,6 +143,7 @@ def registerDocument(request):
         return redirect('documents')
 
     return render(request, 'register_doc.html')
+@group_required('Admin')
 @is_logged
 def editDocument(request, id):
     document = get_object_or_404(Document, id=id)
@@ -145,6 +159,7 @@ def editDocument(request, id):
         return redirect('documents')
 
     return render(request, 'documents/edit.html', {'document': document})
+@group_required('Admin')
 @is_logged
 def deleteDocument(request, id):
     document = get_object_or_404(Document, id=id)

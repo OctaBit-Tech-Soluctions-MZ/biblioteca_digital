@@ -22,4 +22,4 @@ def group_required(*group_names):
             if user.groups.filter(name__in=group_names).exists() or user.is_superuser:
                 return True
         return False
-    return user_passes_test(in_groups, login_url='/login/', redirect_field_name=None)
+    return user_passes_test(in_groups, login_url='/', redirect_field_name=None)

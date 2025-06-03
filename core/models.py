@@ -23,6 +23,7 @@ class Document(models.Model):
     author = models.CharField(max_length=255)
     year = models.IntegerField()
     link = models.FileField(upload_to='documentos/')
+    description = models.TextField()
     isdownloaded = models.BooleanField(default=False)
     slug = models.CharField(max_length=255, blank=True, null=True)
     type = models.CharField(max_length=20, choices=TYPE_CHOICES, default='livros')

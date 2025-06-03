@@ -23,7 +23,10 @@
         <a href="{% url 'users' %}">Usuários</a>
         <a href="{% url 'documents' %}">Acervo</a>
         <!-- <a href="#">Estatísticas</a> -->
-        <a href="#">Sair</a>
+        <form method="post" action="{% url 'logout' %}" style="display: inline;">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-link dropdown-item">Encerrar Sessão</button>
+        </form>
     </nav>
 
     <main class="content">
