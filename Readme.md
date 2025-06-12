@@ -23,7 +23,7 @@ Projeto desenvolvido em Django para gerenciar uma biblioteca virtual, com contro
 
 1. Clone o repositório:
 
-git clone https://github.com/seu-usuario/biblioteca-virtual.git
+git clone https://github.com/seu-usuario/biblioteca-virtual.git](https://github.com/OctaBit-Tech-Soluctions-MZ/biblioteca_digital.git
 cd biblioteca-virtual
 
 ## Crie e ative o ambiente virtual:
