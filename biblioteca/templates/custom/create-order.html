@@ -1,0 +1,74 @@
+{% extends 'layouts/app.html' %}
+
+{% block title %}Pedido de Impressão{% endblock %}
+
+{% block content %}
+{% load static %}
+<div class="mt-3 ms-3">
+    <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);"
+        aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'documents.custom' %}">Inicio</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Pedido de Impressão</li>
+        </ol>
+    </nav>
+</div>
+<div class="p-3 d-flex justify-content-center align-items-center">
+    <div class="card shadow border border-0 p-3">
+        <h2>Pedido de Impressão</h2>
+        <div class="row">
+            <div class="col-md-3 me-2">
+                <ul class="list-unstyled">
+                    <li class="row py-1 border-bottom">
+                        <div class="col-4 fw-bold">Título:</div>
+                        <div class="col-8 text-end">{{ document.title }}</div>
+                    </li>
+                    <li class="row py-1 border-bottom">
+                        <div class="col-4 fw-bold">Autor:</div>
+                        <div class="col-8 text-end">{{ document.author }}</div>
+                    </li>
+                    <li class="row py-1 border-bottom">
+                        <div class="col-4 fw-bold">Ano:</div>
+                        <div class="col-8 text-end">{{ document.year }}</div>
+                    </li>
+                    <li class="row py-1 border-bottom">
+                        <div class="col-4 fw-bold">Tipo:</div>
+                        <div class="col-8 text-end">{{ document.type }}</div>
+                    </li>
+                </ul>
+
+            </div>
+            <div class="col-md-7">
+                <form id="formUsuario" method="post" validate>
+                    {% csrf_token %}
+                    <div class="row gap-2">
+                        <div class="row mt-2">
+                            <div class="col-md-12">
+                                <label for="copy_total" class="form-label">Numero de Copias</label>
+                                <input type="number" class="form-control" id="copy_total" name="copy_total"
+                                    placeholder="Insira o numero de copias" min="1" required />
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-md-6">
+                                <label for="firstpage" class="form-label">Começar na página:</label>
+                                <input type="number" class="form-control" id="firstpage" name="firstpage"
+                                    placeholder="Ex: 1" min="1" required />
+                            </div>
+                            <div class="col-md-6">
+                                <label for="lastpage" class="form-label">Terminar na página:</label>
+                                <input type="number" class="form-control" id="lastpage" name="lastpage"
+                                    placeholder="Ex: 10" min="1" required />
+                                <div class="invalid-feedback">Por favor, insira o apelido.</div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <button type="submit" class="btn btn-primary">Submeter Pedido</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

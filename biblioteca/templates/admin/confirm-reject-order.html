@@ -1,0 +1,23 @@
+{% extends 'layouts/admin.html' %}
+
+{% block title %}Rejeição de Pedidos{% endblock %}
+
+{% block content %}
+{% load static %}
+<div class="mt-5">
+    <div class="row">
+        <div class="card shadow border border-0">
+            <div class="card-body">
+                <h4 class="text-center">Tem certeza que deseja rejeitar o pedido #{{ order.id }}?</h4>
+                <div class="d-flex justify-content-center gap-1 mt-3 mb-3">
+                    <form method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger btn-sm">Rejeitar</button>
+                    </form>
+                    <a href="{% url 'orders' %}" class="btn btn-primary btn-sm">Cancelar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

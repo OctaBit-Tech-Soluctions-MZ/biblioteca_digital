@@ -1,0 +1,68 @@
+{% extends 'layouts/admin.html' %}
+
+{% block title %}Lista de Documentos{% endblock %}
+
+{% block content %}
+{% load static %}
+
+<div class="document-container p-3">
+    <div class="d-flex justify-content-between align-items-center mb-2">
+        <h4 class="fw-bold text-dark mb-0">Lista de Documentos</h4>
+        <a href="{% url 'documents.register' %}" class="btn btn-outline-primary btn-sm">
+            <i class="bi bi-plus-circle me-1"></i> Registar Documento
+        </a>
+    </div>
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">
+        {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
+    <div class="table-responsive">
+        <table class="table table-hover table-sm table-bordered" id="idem-tables">
+            <thead class="table-dark">
+                <tr>
+                    <th>Id</th>
+                    <th>Título</th>
+                    <th>Tipo</th>
+                    <th>Curso</th>
+                    <th>Autor</th>
+                    <th>Ano</th>
+                    <th>Ação</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if documents %}
+                {% for document in documents %}
+                <tr>
+                    <td class="text-capitalize">#{{ document.id }}</td>
+                    <td class="text-capitalize">{{ document.title }}</td>
+                    <td class="text-capitalize">{{ document.type }}</td>
+                    <td class="text-capitalize">{{ document.course.name }}</td>
+                    <td class="text-capitalize">{{ document.author }}</td>
+                    <td class="text-capitalize">{{ document.year }}</td>
+                    <td class="d-flex gap-1 justify-content-center">
+                        <a href="{% url 'document.edit' doc=document.id %}" class="btn btn-sm btn-outline-primary">
+                            <i class="bi bi-pencil-square me-1"></i> Editar
+                        </a>
+                        <a href="{% url 'document.delete' doc=document.id %}" class="btn btn-sm btn-outline-danger">
+                            <i class="bi bi-trash me-1"></i> Excluir
+                        </a>
+                        <a href="{{ document.link.url }}" target="_blank" class="btn btn-sm btn-outline-success">
+                            <i class="bi bi-printer"></i> Imprimir
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+                {% else %}
+                <tr>
+                    <td colspan="6" class="p-4 text-center text-muted">Nenhum Documento encontrado.</td>
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

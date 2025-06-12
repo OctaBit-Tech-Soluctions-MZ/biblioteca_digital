@@ -1,0 +1,90 @@
+{% extends 'layouts/app.html' %}
+
+{% block title %}Perfil do Utilizador{% endblock %}
+
+{% block content %}
+{% load static %}
+<div class="row p-5">
+    <div class="card shadow border border-0 p-2">
+        <h2>Perfil do Utilizador</h2>
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+        <form id="formUsuario" method="post" validate>
+            {% csrf_token %}
+            <div class="row gap-2">
+                <div class="row mt-2">
+                    <div class="col-md-6">
+                        <label for="firstname" class="form-label">Primeiros Nome</label>
+                        <input type="text" class="form-control" id="firstname" name="firstname"
+                            placeholder="Ex: Maria Pedro" required value="{{user.first_name}}" />
+                        <div class="invalid-feedback">Por favor, insira o primeiro e segundo.</div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="lastname" class="form-label">Apelido</label>
+                        <input type="text" class="form-control" id="lastname" name="lastname" value="{{user.last_name}}"
+                            placeholder="Ex: Cossa" required />
+                        <div class="invalid-feedback">Por favor, insira o apelido.</div>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-6">
+                        <label for="email" class="form-label">E-mail</label>
+                        <input type="email" class="form-control" id="email" name="email" value="{{user.email}}"
+                            placeholder="maria@gmail.com" required />
+                        <div class="invalid-feedback">Insira um e-mail válido.</div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="contact" class="form-label">Telefone</label>
+                        <input type="tel" class="form-control" id="contact" name="phone" placeholder="Ex: 842345678"
+                            pattern="[0-9]{9}" value="{{user.phone}}" required />
+                        <div class="invalid-feedback">Insira um número de telefone válido (9 dígitos).</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <button type="submit" class="btn btn-primary">Editar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="row p-5">
+    <div class="card shadow border border-0 p-2">
+        <h2>Mudar Senha</h2>
+        <form id="formUsuario" method="post" validate>
+            {% csrf_token %}
+            <div class="row gap-2">
+                <div class="row mt-2">
+                    <div class="col-md-12">
+                        <label for="oldpassword" class="form-label">Senha Antiga</label>
+                        <input type="password" class="form-control" id="oldpassword" name="oldpassword"
+                            placeholder="Por favor, insira a sua senha antiga." required />
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-12">
+                        <label for="password" class="form-label">Nova Senha</label>
+                        <input type="password" class="form-control" id="password" name="password"
+                            placeholder="Por favor, insira a sua nova senha." required />
+                    </div>
+                    <div class="col-md-12">
+                        <label for="confirmation_password" class="form-label">Confirmação Senha</label>
+                        <input type="password" class="form-control" id="confirmation_password"
+                            name="confirmation_password" placeholder="Por favor, insira novamente a sua novamente senha"
+                            required />
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <button type="submit" class="btn btn-primary">Mudar Senha</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

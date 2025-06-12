@@ -1,0 +1,87 @@
+{% extends 'layouts/admin.html' %}
+
+{% block title %}Registar Usuario{% endblock %}
+
+{% block content %}
+{% load static %}
+<div class="row">
+    <div class="card shadow border border-0">
+        <h2>Registo de Utilizador</h2>
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+        <form id="formUsuario" method="post" validate>
+            {% csrf_token %}
+            <div class="row gap-2">
+                <div class="row">
+                    <div class="col-md-12">
+                        <label for="profile" class="form-label">Tipo de Perfil</label>
+                        <select class="form-select" id="profile" name="profile" required>
+                            <option value="" disabled selected>Selecione o perfil</option>
+                            {% for group in groups %}
+                            <option value="{{ group.name }}" onclick="show_student_form('{{ group.name }}')">{{ group.name }}</option>
+                            {% endfor %}
+                        </select>
+                        <div class="invalid-feedback">Escolha um perfil válido.</div>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-6">
+                        <label for="firstname" class="form-label">Primeiros Nome</label>
+                        <input type="text" class="form-control" id="firstname" name="firstname"
+                            placeholder="Ex: Maria Pedro" required />
+                        <div class="invalid-feedback">Por favor, insira o primeiro e segundo.</div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="lastname" class="form-label">Apelido</label>
+                        <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Ex: Cossa"
+                            required />
+                        <div class="invalid-feedback">Por favor, insira o apelido.</div>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-6">
+                        <label for="email" class="form-label">E-mail</label>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="maria@gmail.com"
+                            required />
+                        <div class="invalid-feedback">Insira um e-mail válido.</div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="contact" class="form-label">Telefone</label>
+                        <input type="tel" class="form-control" id="contact" name="phone" placeholder="Ex: 842345678"
+                            pattern="[0-9]{9}" required />
+                        <div class="invalid-feedback">Insira um número de telefone válido (9 dígitos).</div>
+                    </div>
+                </div>
+                <div class="row mt-2" style="display: none;" id="student">
+
+                    <div class="col-md-6">
+                        <label for="student_code" class="form-label">Codigo de Estudante</label>
+                        <input type="number" class="form-control" id="student_code" name="student_code"
+                            placeholder="Ex: 20229034" />
+                        <div class="invalid-feedback">Insira um número de telefone válido (9 dígitos).</div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="tipo" class="form-label">Curso</label>
+                        <select class="form-select" name="course">
+                            <option value="" disabled>Selecione o curso</option>
+                            {% for course in courses %}
+                            <option value="{{ course.id }}">{{ course.name }}</option>
+                            {% empty %}
+                            <li>Nenhum Documento encontrado.</li>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <button type="submit" class="btn btn-primary">Registar Utilizador</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

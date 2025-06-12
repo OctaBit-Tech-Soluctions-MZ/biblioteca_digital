@@ -1,0 +1,85 @@
+{% extends 'layouts/admin.html' %}
+
+{% block title %}Registo de Documentos{% endblock %}
+
+{% block content %}
+{% load static %}
+<div class="row">
+    <div class="form-wrapper">
+        <h4><i class="bi bi-journal-plus"></i> Registo de Novo Documento</h4>
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+        <form id="formManual" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <fieldset>
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <label for="titulo" class="form-label">Título do Documento</label>
+                        <input type="text" class="form-control" name="title" placeholder="Ex: Lógica de Programação"
+                            required />
+                    </div>
+                    <div class="col-md-6">
+                        <label for="tipo" class="form-label">Curso</label>
+                        <select class="form-select" name="course" required>
+                            <option value="" disabled>Selecione o curso</option>
+                            {% for course in courses %}
+                            <option value="{{ course.id }}">{{ course.name }}</option>
+                            {% empty %}
+                            <li>Nenhum Documento encontrado.</li>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="descricao" class="form-label">Descrição</label>
+                        <textarea class="form-control" name="description" rows="3" placeholder="Resumo do conteúdo..."
+                            required></textarea>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="groups" class="form-label">Escolha quem tem acesso ao Documento</label>
+                        <select name="groups" id="groups" class="form-select" multiple>
+                            <option value="all" selected>Todos</option>
+                            {% for group in groups %}
+                            <option value="{{group.id}}">{{group.name}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="autor" class="form-label">Autor</label>
+                        <input type="text" class="form-control" name="author" placeholder="Ex: Prof. João Santos"
+                            required />
+                    </div>
+                    <div class="col-md-6">
+                        <label for="tipo" class="form-label">Tipo</label>
+                        <select class="form-select" name="type" required>
+                            <option value="livros" selected>Livros</option>
+                            <option value="artigos">Artigos</option>
+                            <option value="teses">Teses</option>
+                            <option value="revistas">Revistas</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="ano" class="form-label">Ano de Publicação</label>
+                        <input type="number" class="form-control" name="year" min="1400" max="2099" placeholder="2024"
+                            required />
+                    </div>
+                    <div class="col-md-9">
+                        <label for="link" class="form-label">Carregue o documento aqui</label>
+                        <input type="file" class="form-control" name="link" accept=".pdf" required />
+                    </div>
+                </div>
+            </fieldset>
+
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-primary text-white">
+                    <i class="bi bi-cloud-upload-fill form-icon"></i> Registar Documento
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

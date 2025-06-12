@@ -1,0 +1,56 @@
+{% extends 'layouts/app.html' %}
+
+{% block title %}Pedidos de Impressão {{document.title}} {% endblock %}
+
+{% block content %}
+{% load static %}
+<div class="row">
+    <div class="card shadow border border-0">
+        <div class="card-body p-2">
+            <div class="d-flex justify-content-between align-items-center">
+                <span class="fs-4 fw-bold">Meus Pedidos de Impressão de Documentos</span>
+            </div>
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+            {% endfor %}
+            {% endif %}
+            <div class="table-responsive">
+                <table id="idem-tables" class="table table-bordered table-hover align-middle text-center">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Id</th>
+                            <th>Documento</th>
+                            <th>Copias</th>
+                            <th>Paginas</th>
+                            <th>Status</th>
+                            <th>Data</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        {% for order in orders %}
+                        <tr>
+                            <td>#{{ order.id }}</td>
+                            <td>{{ order.document.title }}</td>
+                            <td>{{ order.copy_total }}</td>
+                            <td>{{ order.first_page }} - {{ order.last_page }}</td>
+                            <td>{{ order.get_status_display }}</td>
+                            <td>{{ order.created_at|date:"d/m/Y H:i" }}</td>
+                        </tr>
+                        {% endfor %}
+                        <!-- Caso não haja pedidos -->
+                        <!--
+              <tr>
+                <td colspan="8" class="text-muted">Nenhum pedido encontrado.</td>
+              </tr>
+              -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

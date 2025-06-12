@@ -16,10 +16,19 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.contrib.admin import site
 from django.contrib.auth import views as auth_views
+from django.views.decorators.cache import never_cache
+from django.conf import settings
+from django.conf.urls.static import static
+
+# Para garantir que a view admin login funciona corretamente
+admin_login = never_cache(site.login)
 
 urlpatterns = [
-    # path('admin/', admin.site.urls),
-    path('', include('core.urls')),
-    path('admin/', include('admin.urls')),
+    path('', include('biblioteca.urls')),
+    path('secret/', admin.site.urls),
+    path('logout/', auth_views.LogoutView.as_view(next_page='/'), name='logout'),
 ]
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,0 +1,18 @@
+{% extends 'layouts/admin.html' %}
+
+{% block title %}Utilizador Criado com sucesso{% endblock %}
+
+{% block content %}
+{% load static %}
+<div class="row">
+    <div class="p5">
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

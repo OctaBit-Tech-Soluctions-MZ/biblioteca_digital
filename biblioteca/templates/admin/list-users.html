@@ -1,0 +1,73 @@
+{% extends 'layouts/admin.html' %}
+
+{% block title %}Lista de Utilizadores{% endblock %}
+
+{% block content %}
+{% load static %}
+
+<div class="container">
+    <div class="user-header">
+        <h2>Lista de Utilizadores</h2>
+        <div class="d-flex justify-content-start mb-3">
+            <a href="{% url 'users.register' %}" class="btn btn-outline-primary btn-sm">
+                <i class="bi bi-plus-circle me-1"></i> Registar Utilizador
+            </a>
+        </div>
+    </div>
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">
+        {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
+
+    <div class="table-responsive">
+        <table id="idem-tables" class="table table-bordered table-hover align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>Id</th>
+                    <th>Nome</th>
+                    <th>Apelido</th>
+                    <th>Tipo de Utilizador</th>
+                    <th>Email</th>
+                    <th>Telefone</th>
+                    <th>Ação</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                {% if user.is_superuser == False %}
+
+                <tr>
+                    <td>#{{ user.id }}</td>
+                    <td>{{ user.first_name }}</td>
+                    <td>{{ user.last_name }}</td>
+                    <td>
+                        {% if user.groups.all %}
+                        {% for group in user.groups.all %}
+                        <span class="badge bg-info text-dark">{{ group.name }}</span>
+                        {% if not forloop.last %}, {% endif%}
+                        {% endfor %}
+                        {% else %}
+                        <span class="text-muted">Sem grupo</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.phone }}</td>
+                    <td>
+                        <a href="#" class="btn btn-outline-danger btn-sm"><i class="bi bi-x-octagon"></i> Bloquear</a>
+                    </td>
+                </tr>
+                {% endif %}
+                {% empty %}
+                <tr>
+                    <td colspan="5" class="no-users">Nenhum Utilizador encontrado.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

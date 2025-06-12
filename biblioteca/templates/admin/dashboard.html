@@ -1,0 +1,149 @@
+{% extends 'layouts/admin.html' %}
+
+{% block title %}Dashboard {% endblock %}
+
+{% block content %}
+{% load static %}
+<style>
+    .card {
+        height: 200px;
+        border: none;
+        border-radius: 16px;
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+        transition: background-color 0.3s, color 0.3s;
+    }
+</style>
+<div class="container">
+    <h4 class="mb-4 fw-bold">Dashboard Administrativo</h4>
+
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">
+        {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
+    <!-- Cards Principais -->
+    <div class="row g-4 mb-4">
+        <div class="col-md-3">
+            <div class="card p-3">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <div class="text-muted" style="font-size: 30px;">Utilizadores Registados</div>
+                        <div class="metric text-success fw-bold">+{{ recent_users }} novos</div>
+                    </div>
+                    <span class="badge bg-primary rounded-circle p-3">{{ total_users }}</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card p-3">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <div class="text-muted" style="font-size: 30px;">Pedidos de Impressão</div>
+                        <div class="metric text-danger fw-bold">-{{total_orders_complete}}%</div>
+                    </div>
+                    <span class="badge bg-danger rounded-circle p-3">{{ total_orders }}</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card p-3">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <div class="text-muted" style="font-size: 30px;">Documentos Registados</div>
+                        <div class="metric fw-bold">+{{documents_this_month}} no mês de {{ current_month_year }}</div>
+                    </div>
+                    <span class="badge bg-warning rounded-circle p-3">{{total_documents}}</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card p-3">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <div class="text-muted" style="font-size: 30px;">Acesso a Plataforma</div>
+                        <div class="metric text-info fw-bold">+{{total_access_recent}} acessos</div>
+                    </div>
+                    <span class="badge bg-success rounded-circle p-3">{{ total_access }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gráficos -->
+    <div class="row g-4">
+        <!-- Gráfico de Linha -->
+        <div class="col-lg-8">
+            <div class="chart-container">
+                <h5 class="mb-3">Estatísticas de Uso Mensal</h5>
+                <canvas id="lineChart" height="120"></canvas>
+            </div>
+        </div>
+
+        <!-- Gráfico Circular -->
+        <div class="col-lg-4">
+            <div class="doughnut-card">
+                <h6>Usuários Ativos</h6>
+                <canvas id="doughnutChart" height="200"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JS Chart + Tema -->
+<script>// Gráfico de linha
+    const ctx = document.getElementById('lineChart').getContext('2d');
+
+    // Crie arrays vazios para Labels e Data
+    const labels = [];
+    const dataPoints = [];
+
+    // Use o loop Django para popular os arrays JavaScript
+    {% for entry in access_stats_by_month %}
+    labels.push('{{ entry.month|date:"F/Y" }}'); // Adiciona cada mês ao array de labels
+    dataPoints.push({{ entry.total }});        // Adiciona cada total ao array de dataPoints
+    {% endfor %}
+
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels, // Use o array 'labels' populado
+            datasets: [{
+                label: 'Acesso aos Documentos', // Rótulo genérico para todos os dados
+                data: dataPoints,           // Use o array 'dataPoints' populado
+                borderColor: '#1a56db',
+                backgroundColor: 'rgba(26, 86, 219, 0.1)',
+                tension: 0.4,
+                fill: true
+            }]
+        },
+        options: {
+            plugins: { legend: { display: false } }, // Exemplo: oculta a legenda se for apenas uma série
+            scales: { y: { beginAtZero: true } }
+        }
+    });
+
+    // Gráfico circular
+    new Chart(document.getElementById('doughnutChart'), {
+        type: 'doughnut',
+        data: {
+            labels: ['Ativos', 'Inativos'],
+            datasets: [{
+                data: [85, 15],
+                backgroundColor: ['#1a56db', '#e4e4e4']
+            }]
+        },
+        options: {
+            cutout: '70%',
+            plugins: { legend: { display: false } }
+        }
+    });
+
+    // Alternância de tema
+    document.getElementById('themeToggle').addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+    });
+</script>
+
+{% endblock %}

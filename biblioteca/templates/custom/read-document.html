@@ -1,0 +1,10 @@
+{% extends 'layouts/app.html' %}
+
+{% block title %} Ler Documento {% endblock %}
+
+{% block content %}
+{% load static %}
+<div class="row">
+    <embed src="{% static 'pdfjs/web/viewer.html' %}?file={{document.link.url}}" type="application/pdf" width="800px" height="2100px" />
+</div>
+{% endblock %}
